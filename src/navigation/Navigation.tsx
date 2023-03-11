@@ -1,29 +1,38 @@
-import { BrowserRouter, Routes, Route, NavLink, Navigate  } from 'react-router-dom'
-import logo from '../assets/logo.svg'
-import { LazyPage1, LazyPage2, LazyPage3 } from '../lazyload/pages'
+import { Suspense } from 'react';
 
+import { BrowserRouter, Routes, Route, NavLink, Navigate } from 'react-router-dom'
+
+import logo from '../assets/logo.svg'
+import { routes } from './routes'
 
 export const Navigation = () => {
   return (
-    <BrowserRouter>
-        <div className='main-layout'>
+    <Suspense fallback={ <h3>Cargando...</h3> }>
+      <BrowserRouter>
+          <div className='main-layout'>
             <nav>
-                <img src={ logo } alt="React-logo" />  
-                <li><NavLink to="/lazy1" className={ ({ isActive }) => isActive ? 'nav-active' : ''}>Lazy1</NavLink></li>
-                <li><NavLink to="/lazy2" className={ ({ isActive }) => isActive ? 'nav-active' : ''}>Lazy2</NavLink></li>
-                <li><NavLink to="/lazy3" className={ ({ isActive }) => isActive ? 'nav-active' : ''}>Lazy3</NavLink></li>  
+              <img src={logo} alt="React-logo" />  
+              <ul>
+                {
+                  routes.map(({ to, name }) => (
+                    <li><NavLink to={to} className={({ isActive }) => isActive ? 'nav-active' : ''}>{ name }</NavLink></li>
+                    
+                  ))
+                
+                }
+              </ul>
             </nav>
-
-
             <Routes>
-                <Route path="lazy1" element={ <LazyPage1/> }/>
-                <Route path="lazy2" element={ <LazyPage2/> }/>
-                <Route path="lazy3" element={ <LazyPage3/> }/>
-
-                <Route path="/*" element={ <Navigate to="lazy1" replace/> } />
+              {
+                routes.map(({ path, Component }) => (
+                  <Route path={ path } element={<Component/>}/>
+                ))
+              }
+              <Route path='/*' element={ <Navigate to='home' replace/>} />
             </Routes>  
 
-        </div>
-    </BrowserRouter>
+          </div>
+      </BrowserRouter>
+    </Suspense>
   )
 }
