@@ -1,0 +1,21 @@
+.bg-dark {
+    background-color: rgb(56,56,56);
+}
+
+.title{
+    font-size: 20px;
+    color: black;
+}
+
+.text-white{
+    color: white;
+}
+
+.image{
+    border-radius: 50%;
+}
+
+.custom-bottons button, .custom-bottons span{
+    color: white;
+    border-color: white;
+}
